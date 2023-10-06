@@ -9,6 +9,7 @@ const HomePage = () => {
       </Head>
       <h1 style={{ textAlign: "center", marginTop:"10%" }}>Welcome To Next Auth Home Page</h1>
       {session?.user && <h2 style={{ textAlign: "center", marginTop:"1rem" }}>Mr. or Miss. {session?.user?.name}</h2>}
+      {session?.user && <h2 style={{ textAlign: "center", marginTop:"1rem" }}>{session?.user?.email}</h2>}
     </div>
   );
 };
