@@ -1,8 +1,12 @@
 import { Layout, Menu, Button } from "antd";
+import { signOut, useSession } from "next-auth/react";
+import Image from "next/image";
 const { Header } = Layout;
 import Link from "next/link";
 
 const Navbar = () => {
+  const { data: session } = useSession()
+  console.log(session);
   return (
     <Header
       style={{
@@ -38,14 +42,22 @@ const Navbar = () => {
         >
           <items>Profile</items>
         </Link>
-        <Link style={{ textDecoration: "none", color: "white" }} href="/login">
-          <items>Login</items>
-        </Link>
-        <items>
-          <Button type="primary" danger>
-            Logout
-          </Button>
-        </items>
+        {
+          !session?.user?.email ?
+            <Link style={{ textDecoration: "none", color: "white" }} href="/login">
+              <items>Login</items>
+            </Link>
+            :
+            <items style={{ display: "flex", alignItems: "center", gap: "0.2rem" }}>
+              {
+                session?.user?.email &&
+                <Image src={session?.user?.image} width={30} height={30} alt="imgage of the user" style={{ borderRadius: "50%" }} />
+              }
+              <Button type="primary" danger onClick={() => signOut()}>
+                Logout
+              </Button>
+            </items>
+        }
       </Menu>
     </Header>
   );
